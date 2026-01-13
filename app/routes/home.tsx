@@ -15,7 +15,7 @@ interface Player {
 export function meta({}: Route.MetaArgs) {
   return [
     {
-      title: "B-Ball Showdown",
+      title: "Bucketboard",
     },
     {
       name: "description",
@@ -126,7 +126,7 @@ export default function Home() {
       setFormData({ player: "", score: "", top_ten: false, place: 13 });
       fetchPlayers();
 
-      wes.current.send(String("Seite Aktualisiert!"));
+      wes.current.send(String("Leaderboard Updated!"));
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to save player");
     }
@@ -204,43 +204,43 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black">
+    <div className="min-h-screen bg-black">
       <div className="container mx-auto px-4 py-12 max-w-6xl">
         <InfoDialogue  message={message}/>
         <br />
         <br />
         {/* Header */}
         <div className="mb-12 text-center">
-          <h1 className="text-[5.7rem] font-extrabold mb-4 tracking-tight">
-            <span className="bg-gradient-to-r from-orange-500 via-orange-600 to-black dark:from-orange-400 dark:via-orange-500 dark:to-white bg-clip-text text-transparent">
+          <h1 className="font-display text-[5n rem] mb-4 tracking-tight uppercase">
+            <span className="bg-gradient-to-r from-magenta-400 via-magenta-500 to-white bg-clip-text text-transparent">
               B-Ball
             </span>{" "}
-            <span className="bg-gradient-to-r from-black via-orange-600 to-orange-500 dark:from-white dark:via-orange-400 dark:to-orange-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-white via-magenta-500 to-magenta-400 bg-clip-text text-transparent">
               Showdown
             </span>
           </h1>
-          <p className="text-[1.425rem] text-gray-600 dark:text-gray-400 font-medium mb-6">
+          <p className="text-[1.425rem] text-gray-400 font-serif mb-6">
             Manage scores and rankings
           </p>
           {/* Action Buttons */}
           <div className="flex justify-around items-center">
             <button
               onClick={handleFetch}
-              className="min-w-[220px] px-[35.2px] py-[17.6px] bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white text-[1.1875rem] font-bold rounded-lg transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg active:shadow-md"
+              className="font-display min-w-[220px] px-[35.2px] py-[17.6px] bg-gray-800 hover:bg-gray-700 text-white text-[1.1875rem] rounded-lg transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg active:shadow-md border border-gray-700"
             >
               Refresh Leaderboard
             </button>
             {!showForm && (
               <button
                 onClick={() => setShowForm(true)}
-                className="min-w-[220px] px-[35.2px] py-[17.6px] bg-green-600 hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600 text-white text-[1.1875rem] font-bold rounded-lg transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg active:shadow-md"
+                className="font-display min-w-[220px] px-[35.2px] py-[17.6px] bg-magenta-600 hover:bg-magenta-500 text-white text-[1.1875rem] rounded-lg transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg active:shadow-md"
               >
                 + Add New Player
               </button>
             )}
             <Link
               to="/leaderboard"
-              className="min-w-[220px] inline-block px-[35.2px] py-[17.6px] bg-orange-600 hover:bg-orange-700 dark:bg-orange-500 dark:hover:bg-orange-600 text-white text-[1.1875rem] font-bold rounded-lg transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg active:shadow-md text-center"
+              className="font-display min-w-[220px] inline-block px-[35.2px] py-[17.6px] bg-magenta-500 hover:bg-magenta-400 text-white text-[1.1875rem] rounded-lg transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg active:shadow-md text-center"
             >
               View Leaderboard →
             </Link>
@@ -249,20 +249,20 @@ export default function Home() {
 
         {/* Error Message */}
         {error && (
-          <div className="mb-6 p-4 bg-gray-100 dark:bg-gray-900 border border-gray-400 dark:border-gray-700 text-black dark:text-white rounded-lg text-[1.06875rem] font-semibold">
+          <div className="mb-6 p-4 bg-magenta-950 border border-magenta-600 text-white rounded-lg text-[1.06875rem] font-semibold">
             {error}
           </div>
         )}
 
         {/* Form */}
         {showForm && (
-          <div className="mb-8 bg-white dark:bg-black rounded-xl border-2 border-gray-200 dark:border-gray-800 p-8 hover:border-orange-500 dark:hover:border-orange-500 transition-colors duration-200">
-            <h2 className="text-[2.1375rem] font-bold text-black dark:text-white mb-6">
+          <div className="mb-8 bg-black rounded-xl border-2 border-gray-800 p-8 hover:border-magenta-500 transition-colors duration-200">
+            <h2 className="font-display text-[2.1375rem] text-white mb-6">
               {editingPlayer ? "Edit Player" : "Add New Player"}
             </h2>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-[1.1875rem] font-bold text-black dark:text-white mb-2">
+                <label className="block text-[1.1875rem] font-serif text-white mb-2">
                   Player Name
                 </label>
                 <input
@@ -272,14 +272,14 @@ export default function Home() {
                     setFormData({ ...formData, player: e.target.value })
                   }
                   required
-                  className="w-full px-4 py-3 text-[1.06875rem] border-2 border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-900 dark:text-white"
+                  className="font-serif w-full px-4 py-3 text-[1.06875rem] border-2 border-gray-700 rounded-lg focus:ring-2 focus:ring-magenta-500 focus:border-magenta-500 bg-gray-900 text-white"
                   placeholder="Enter player name"
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div>
-                  <label className="block text-[1.1875rem] font-bold text-black dark:text-white mb-2">
+                  <label className="block text-[1.1875rem] font-serif text-white mb-2">
                     Shots Made
                   </label>
                   <input
@@ -291,21 +291,21 @@ export default function Home() {
                       setFormData({ ...formData, score: e.target.value })
                     }
                     required
-                    className="w-full px-4 py-3 text-[1.06875rem] border-2 border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-900 dark:text-white"
+                    className="font-display w-full px-4 py-3 text-[1.06875rem] border-2 border-gray-700 rounded-lg focus:ring-2 focus:ring-magenta-500 focus:border-magenta-500 bg-gray-900 text-white"
                   />
                 </div>
               </div>
               <div className="flex gap-4">
                 <button
                   type="submit"
-                  className="px-8 py-4 bg-black hover:bg-orange-600 dark:bg-white dark:hover:bg-orange-500 text-white dark:text-black text-[1.1875rem] font-bold rounded-lg transition-colors duration-200"
+                  className="font-display px-8 py-4 bg-magenta-500 hover:bg-magenta-400 text-white text-[1.1875rem] rounded-lg transition-colors duration-200"
                 >
                   {editingPlayer ? "Update Player" : "Add Player"}
                 </button>
                 <button
                   type="button"
                   onClick={handleCancel}
-                  className="px-8 py-4 bg-gray-200 hover:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 text-black dark:text-white text-[1.1875rem] font-bold rounded-lg transition-colors duration-200"
+                  className="font-display px-8 py-4 bg-gray-800 hover:bg-gray-700 text-white text-[1.1875rem] rounded-lg transition-colors duration-200"
                 >
                   Cancel
                 </button>
@@ -317,13 +317,13 @@ export default function Home() {
         {/* Players List */}
         {loading ? (
           <div className="text-center py-12">
-            <p className="text-[1.425rem] font-bold text-gray-600 dark:text-gray-400">
+            <p className="text-[1.425rem] font-bold text-gray-400">
               Loading players...
             </p>
           </div>
         ) : players.length === 0 ? (
-          <div className="text-center py-12 bg-white dark:bg-black rounded-xl border-2 border-gray-200 dark:border-gray-800">
-            <p className="text-[1.425rem] font-bold text-gray-600 dark:text-gray-400">
+          <div className="text-center py-12 bg-black rounded-xl border-2 border-gray-800">
+            <p className="text-[1.425rem] font-bold text-gray-400">
               No players found. Show them you got GAME!
             </p>
           </div>
@@ -332,35 +332,35 @@ export default function Home() {
             {players.map((player) => (
               <div
                 key={player.session_id}
-                className="bg-white dark:bg-black rounded-xl border-2 border-gray-200 dark:border-gray-800 p-6 hover:border-orange-400 dark:hover:border-orange-400 transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg active:shadow-md"
+                className="bg-black rounded-xl border-2 border-gray-800 p-6 hover:border-magenta-500 transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg active:shadow-md"
               >
                 <div className="mb-4">
-                  <h3 className="text-[1.78125rem] font-bold text-black dark:text-white mb-2">
+                  <h3 className="font-display text-[1.78125rem] text-white mb-2">
                     {player.player}
                   </h3>
-                  <div className="space-y-2">
+                  <div className="space-y-2 font-serif">
                     <div className="flex justify-between items-center">
-                      <span className="text-[1.06875rem] font-semibold text-gray-600 dark:text-gray-400">
+                      <span className="text-[1.06875rem] text-gray-400">
                         Score:
                       </span>
-                      <span className="text-[1.425rem] font-bold text-orange-500 dark:text-orange-400">
+                      <span className="font-display text-[1.425rem] text-magenta-400">
                         {player.score}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-[1.06875rem] font-semibold text-gray-600 dark:text-gray-400">
+                      <span className="text-[1.06875rem] text-gray-400">
                         Place:
                       </span>
-                      <span className="text-[1.425rem] font-bold text-black dark:text-white">
+                      <span className="font-display text-[1.425rem] text-white">
                         #{player.place}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-[1.06875rem] font-semibold text-gray-600 dark:text-gray-400">
+                      <span className="text-[1.06875rem] text-gray-400">
                         Top Ten:
                       </span>
                       <span
-                        className={`text-[1.1875rem] font-bold ${player.top_ten ? "text-orange-500 dark:text-orange-400" : "text-gray-400 dark:text-gray-600"}`}
+                        className={`font-display text-[1.1875rem] ${player.top_ten ? "text-magenta-400" : "text-gray-600"}`}
                       >
                         {player.place <= 10 ? "Yes" : "No"}
                       </span>
@@ -370,13 +370,13 @@ export default function Home() {
                 <div className="flex gap-3 mt-6">
                   <button
                     onClick={() => handleEdit(player)}
-                    className="flex-1 px-4 py-3 bg-black hover:bg-orange-500 dark:bg-white dark:hover:bg-orange-400 text-white dark:text-black text-[1.06875rem] font-bold rounded-lg transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98] shadow-sm hover:shadow-md active:shadow-sm"
+                    className="font-display flex-1 px-4 py-3 bg-magenta-500 hover:bg-magenta-400 text-white text-[1.06875rem] rounded-lg transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98] shadow-sm hover:shadow-md active:shadow-sm"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => handleDelete(player.session_id)}
-                    className="flex-1 px-4 py-3 bg-gray-200 hover:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 text-black dark:text-white text-[1.06875rem] font-bold rounded-lg transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98] shadow-sm hover:shadow-md active:shadow-sm"
+                    className="font-display flex-1 px-4 py-3 bg-gray-800 hover:bg-gray-700 text-white text-[1.06875rem] rounded-lg transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98] shadow-sm hover:shadow-md active:shadow-sm"
                   >
                     Delete
                   </button>

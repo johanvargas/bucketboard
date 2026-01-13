@@ -3,6 +3,31 @@ import { useState, useEffect, useRef } from "react";
 import store from "./store.js";
 import { IP_ADDRESS, API_BASE_URL, WS_URL } from "./config";
 
+// Import logo images
+import Mielle from "../assets/logos/Mielle.png";
+import OLAY from "../assets/logos/OLAY.png";
+import Secret from "../assets/logos/Secret.png";
+import Tampax from "../assets/logos/Tampax.png";
+import Venus from "../assets/logos/Venus.png";
+import WNBAMielle from "../assets/logos/WNBA Mielle.png";
+import WNBAOLAY from "../assets/logos/WNBA OLAY.png";
+import WNBASecret from "../assets/logos/WNBA Secret.png";
+import WNBATampax from "../assets/logos/WNBA Tampax.png";
+import WNBAVenus from "../assets/logos/WNBA Venus.png";
+
+const logoImages = [
+  { src: Mielle, alt: "Mielle" },
+  { src: OLAY, alt: "OLAY" },
+  { src: Secret, alt: "Secret" },
+  { src: Tampax, alt: "Tampax" },
+  { src: Venus, alt: "Venus" },
+  { src: WNBAMielle, alt: "WNBA Mielle" },
+  { src: WNBAOLAY, alt: "WNBA OLAY" },
+  { src: WNBASecret, alt: "WNBA Secret" },
+  { src: WNBATampax, alt: "WNBA Tampax" },
+  { src: WNBAVenus, alt: "WNBA Venus" },
+];
+
 interface Player {
   session_id: number;
   player: string;
@@ -24,6 +49,15 @@ export default function Leaderboard() {
   const [error, setError] = useState<string | null>(null);
   const wes = useRef(null);
   let [message, setMessage] = useState("");
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Auto-advance carousel
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % logoImages.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   const updateMessage = (message) => {
     setMessage(message);
@@ -77,83 +111,117 @@ export default function Leaderboard() {
   };
 
   return (
-    <div className="h-screen bg-white dark:bg-black overflow-hidden flex flex-col">
-      <div className="container mx-auto px-4 py-8 max-w-4xl flex-1 flex flex-col min-h-0">
+    <div className="h-screen bg-black flex flex-col">
+      {/* Image Carousel - 1/3 of page */}
+      <div className="h-[33vh] w-full relative overflow-hidden flex-shrink-0">
+        {logoImages.map((logo, index) => (
+          <div
+            key={logo.alt}
+            className={`absolute inset-0 flex items-center justify-center transition-opacity duration-700 ${
+              index === currentSlide ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <img
+              src={logo.src}
+              alt={logo.alt}
+              className="max-h-full max-w-full object-contain p-4"
+            />
+          </div>
+        ))}
+      </div>
+
+      <div className="container mx-auto px-4 py-4 max-w-5xl flex-1 flex flex-col min-h-0">
         {/* Header */}
-        <div className="mb-6 text-center flex-shrink-0">
-          <div className="flex items-center justify-center gap-4 mb-2">
-            <h1 className="text-6xl font-bold bg-gradient-to-r from-orange-500 via-orange-600 to-black dark:from-orange-400 dark:via-orange-500 dark:to-white bg-clip-text text-transparent">
+        <div className="mb-1 text-center flex-shrink-0 w-full">
+          <div className="w-full mb-2">
+            <h1 className="w-full font-display text-[3.6rem] text-white tracking-wide uppercase text-center">
               Leaderboard
             </h1>
           </div>
-          <p className="text-xl text-gray-600 dark:text-gray-400">
-            All Time Top 10
-          </p>
         </div>
         {/* Error Message */}
         {error && (
-          <div className="mb-4 p-3 bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 text-black dark:text-white rounded-lg text-base font-medium flex-shrink-0">
+          <div className="mb-2 p-2 bg-magenta-950 text-white rounded-lg text-sm font-medium flex-shrink-0">
             {error}
           </div>
         )}
-        <div className="mb-4 text-sm text-gray-500 dark:text-gray-400 flex-shrink-0">
-          Message from web socket server: {message ? message : "no message available"}
-        </div>
+
         {/* Leaderboard */}
         {loading ? (
           <div className="leaderboard flex-1 flex items-center justify-center min-h-0">
-            <p className="text-xl font-medium text-gray-600 dark:text-gray-400">
+            <p className="text-xl font-medium text-gray-400">
               Loading leaderboard...
             </p>
           </div>
         ) : players.length === 0 ? (
-          <div className="leaderboard flex-1 flex items-center justify-center min-h-0 bg-white dark:bg-black rounded-lg border border-gray-200 dark:border-gray-800">
-            <p className="text-xl font-medium text-gray-600 dark:text-gray-400">
+          <div className="leaderboard flex-1 flex items-center justify-center min-h-0 bg-black rounded-lg border border-gray-800">
+            <p className="text-xl font-medium text-gray-400">
               No players found. Add players to see the leaderboard!
             </p>
           </div>
         ) : (
-          <div className="leaderboard flex-1 min-h-0 bg-white dark:bg-black rounded-lg border border-gray-200 dark:border-gray-800 flex flex-col">
-            <div className="flex flex-col h-full divide-y divide-gray-200 dark:divide-gray-800">
-              {players.map((player, index) => (
-                <div
-                  key={player.session_id}
-                  className={`flex-1 flex items-center p-4 ${
-                    index === 0
-                      ? "bg-orange-50 dark:bg-orange-950/20 border-l-4 border-l-orange-500"
-                      : ""
-                  }`}
-                >
-                  <div className="flex items-center justify-between w-full">
-                    <div className="flex items-center gap-4">
-                      <div
-                        className={`text-2xl font-bold w-12 text-right ${
-                          index === 0
-                            ? "text-orange-600 dark:text-orange-400"
-                            : index === 1
-                              ? "text-gray-500 dark:text-gray-500"
-                              : index === 2
-                                ? "text-gray-500 dark:text-gray-500"
-                                : "text-gray-400 dark:text-gray-600"
-                        }`}
-                      >
-                        #{index + 1}
+          <div className="leaderboard flex-1 min-h-0 bg-black">
+            <div className="grid grid-cols-2 gap-8 h-full">
+              {/* Left column */}
+              <div className="flex flex-col">
+                {players.slice(0, Math.ceil(players.length / 2)).map((player, index) => (
+                  <div
+                    key={player.session_id}
+                    className="flex-1 flex items-center"
+                  >
+                    <div className="flex items-center justify-between w-full">
+                      <div className="flex items-center gap-0">
+                        {/* Magenta rank badge */}
+                        <div className="font-display bg-magenta-500 text-white text-xl w-10 h-full flex items-center justify-center py-3 px-2">
+                          {index + 1}
+                        </div>
+                        {/* White name container */}
+                        <div className="bg-white flex-1 py-3 px-4 w-90">
+                          <h3 className="font-display text-xl text-black uppercase tracking-wide">
+                            {player.player}
+                          </h3>
+                        </div>
                       </div>
-                      <h3 className="text-xl font-semibold text-black dark:text-white">
-                        {player.player}
-                      </h3>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">
-                        {player.score}
-                      </div>
-                      <div className="text-xs font-medium text-gray-500 dark:text-gray-500 uppercase tracking-wide">
-                        Points
+                      {/* Score on black background */}
+                      <div className="text-right">
+                        <div className="font-display text-2xl text-white pl-1">
+                          {player.score}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+              {/* Right column */}
+              <div className="flex flex-col">
+                {players.slice(Math.ceil(players.length / 2)).map((player, index) => (
+                  <div
+                    key={player.session_id}
+                    className="flex-1 flex items-center"
+                  >
+                    <div className="flex items-center justify-between w-full">
+                      <div className="flex items-center gap-0 w-100">
+                        {/* Magenta rank badge */}
+                        <div className="font-display bg-magenta-500 text-white text-xl w-10 h-full flex items-center justify-center py-3 px-2">
+                          {Math.ceil(players.length / 2) + index + 1}
+                        </div>
+                        {/* White name container */}
+                        <div className="bg-white flex-1 py-3 px-4">
+                          <h3 className="font-display text-xl text-black uppercase tracking-wide">
+                            {player.player}
+                          </h3>
+                        </div>
+                      </div>
+                      {/* Score on black background */}
+                      <div className="text-right">
+                        <div className="font-display text-2xl text-white pl-2">
+                          {player.score}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}
