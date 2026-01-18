@@ -2,10 +2,10 @@
 // This file should be added to .gitignore to keep IP addresses private
 
 // prodution
-export const IP_ADDRESS = "192.168.0.64";
+//export const IP_ADDRESS = "192.168.0.64";
 
 // development
-//export const IP_ADDRESS = "127.0.0.1";
+export const IP_ADDRESS = "127.0.0.1";
 export const API_PORT = 3002;
 export const WS_PORT = 5634;
 

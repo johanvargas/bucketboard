@@ -4,11 +4,6 @@ import store from "./store.js";
 import { IP_ADDRESS, API_BASE_URL, WS_URL } from "./config";
 
 // Import logo images
-import Mielle from "../assets/logos/Mielle.png";
-import OLAY from "../assets/logos/OLAY.png";
-import Secret from "../assets/logos/Secret.png";
-import Tampax from "../assets/logos/Tampax.png";
-import Venus from "../assets/logos/Venus.png";
 import WNBAMielle from "../assets/logos/WNBA Mielle.png";
 import WNBAOLAY from "../assets/logos/WNBA OLAY.png";
 import WNBASecret from "../assets/logos/WNBA Secret.png";
@@ -16,11 +11,6 @@ import WNBATampax from "../assets/logos/WNBA Tampax.png";
 import WNBAVenus from "../assets/logos/WNBA Venus.png";
 
 const logoImages = [
-  { src: Mielle, alt: "Mielle" },
-  { src: OLAY, alt: "OLAY" },
-  { src: Secret, alt: "Secret" },
-  { src: Tampax, alt: "Tampax" },
-  { src: Venus, alt: "Venus" },
   { src: WNBAMielle, alt: "WNBA Mielle" },
   { src: WNBAOLAY, alt: "WNBA OLAY" },
   { src: WNBASecret, alt: "WNBA Secret" },
@@ -111,7 +101,7 @@ export default function Leaderboard() {
   };
 
   return (
-    <div className="h-screen bg-black flex flex-col">
+    <div className="h-screen bg-black flex flex-col text-[130%]">
       {/* Image Carousel - 1/3 of page */}
       <div className="h-[33vh] w-full relative overflow-hidden flex-shrink-0">
         {logoImages.map((logo, index) => (
@@ -134,7 +124,7 @@ export default function Leaderboard() {
         {/* Header */}
         <div className="mb-1 text-center flex-shrink-0 w-full">
           <div className="w-full mb-2">
-            <h1 className="w-full font-display text-[3.6rem] text-white tracking-wide uppercase text-center">
+            <h1 className="w-full font-display text-[4.32rem] font-bold text-white tracking-wide uppercase text-center">
               Leaderboard
             </h1>
           </div>

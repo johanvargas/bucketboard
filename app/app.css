@@ -1,44 +1,17 @@
 @import "tailwindcss";
 
-/* Zen Dots - Display Font */
+/* Futura Std Condensed - Primary Font */
 @font-face {
-  font-family: "Zen Dots";
-  src: url("./assets/Zen_Dots/ZenDots-Regular.ttf") format("truetype");
+  font-family: "Futura Std";
+  src: url("./assets/FuturaStd-Condensed-4c11fa08-3096-49d2-8ca4-20fd14494672.otf_v.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
-}
-
-/* Cardo - Serif Font */
-@font-face {
-  font-family: "Cardo";
-  src: url("./assets/Cardo/Cardo-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Cardo";
-  src: url("./assets/Cardo/Cardo-Bold.ttf") format("truetype");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Cardo";
-  src: url("./assets/Cardo/Cardo-Italic.ttf") format("truetype");
-  font-weight: 400;
-  font-style: italic;
   font-display: swap;
 }
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
+  --font-sans: "Futura Std", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-display: "Zen Dots", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Cardo", ui-serif, Georgia, serif;
   
   /* Leaderboard Color Palette */
   --color-magenta-400: #D080B8;
@@ -51,6 +24,6 @@
 html,
 body {
   @apply bg-black text-white;
-  font-family: "Cardo", ui-serif, Georgia, serif;
+  font-family: "Futura Std", ui-sans-serif, system-ui, sans-serif;
   color-scheme: dark;
 }
