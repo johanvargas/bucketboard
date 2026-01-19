@@ -45,7 +45,7 @@ export default function Leaderboard() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % logoImages.length);
-    }, 3000);
+    }, 10000);
     return () => clearInterval(interval);
   }, []);
 
@@ -103,7 +103,8 @@ export default function Leaderboard() {
   return (
     <div className="h-screen bg-black flex flex-col text-[130%]">
       {/* Image Carousel - 1/3 of page */}
-      <div className="h-[33vh] w-full relative overflow-hidden flex-shrink-0">
+      {/*<div className="h-[33vh] object-cover">*/}
+      <div className="object-cover relative h-80 pt-5">
         {logoImages.map((logo, index) => (
           <div
             key={logo.alt}
@@ -114,17 +115,17 @@ export default function Leaderboard() {
             <img
               src={logo.src}
               alt={logo.alt}
-              className="max-h-full max-w-full object-contain p-4"
+              className="w-400"
             />
           </div>
         ))}
       </div>
 
-      <div className="container mx-auto px-4 py-4 max-w-5xl flex-1 flex flex-col min-h-0">
+      <div className="container mx-auto px-4 py-4 flex-1 flex flex-col">
         {/* Header */}
-        <div className="mb-1 text-center flex-shrink-0 w-full">
+        <div className="text-center">
           <div className="w-full mb-2">
-            <h1 className="w-full font-display text-[4.32rem] font-bold text-white tracking-wide uppercase text-center">
+            <h1 className="w-full font-display text-[6.32rem] font-bold text-white tracking-wide uppercase text-center">
               Leaderboard
             </h1>
           </div>
@@ -162,19 +163,19 @@ export default function Leaderboard() {
                     <div className="flex items-center justify-between w-full">
                       <div className="flex items-center gap-0">
                         {/* Magenta rank badge */}
-                        <div className="font-display bg-magenta-500 text-white text-xl w-10 h-full flex items-center justify-center py-3 px-2">
+                        <div className="font-display bg-magenta-500 text-white text-2xl w-10 h-full flex items-center justify-center py-3 px-2">
                           {index + 1}
                         </div>
                         {/* White name container */}
-                        <div className="bg-white flex-1 py-3 px-4 w-90">
-                          <h3 className="font-display text-xl text-black uppercase tracking-wide">
+                        <div className="bg-white flex-1 py-3 px-4 w-150">
+                          <h3 className="font-display text-2xl text-black uppercase tracking-wide">
                             {player.player}
                           </h3>
                         </div>
                       </div>
                       {/* Score on black background */}
                       <div className="text-right">
-                        <div className="font-display text-2xl text-white pl-1">
+                        <div className="font-display text-2xl text-white">
                           {player.score}
                         </div>
                       </div>
@@ -190,21 +191,21 @@ export default function Leaderboard() {
                     className="flex-1 flex items-center"
                   >
                     <div className="flex items-center justify-between w-full">
-                      <div className="flex items-center gap-0 w-100">
+                      <div className="flex items-center gap-0 w-150">
                         {/* Magenta rank badge */}
-                        <div className="font-display bg-magenta-500 text-white text-xl w-10 h-full flex items-center justify-center py-3 px-2">
+                        <div className="font-display bg-magenta-500 text-white text-2xl w-10 h-full flex items-center justify-center py-3 px-2">
                           {Math.ceil(players.length / 2) + index + 1}
                         </div>
                         {/* White name container */}
                         <div className="bg-white flex-1 py-3 px-4">
-                          <h3 className="font-display text-xl text-black uppercase tracking-wide">
+                          <h3 className="font-display text-2xl text-black uppercase tracking-wide">
                             {player.player}
                           </h3>
                         </div>
                       </div>
                       {/* Score on black background */}
                       <div className="text-right">
-                        <div className="font-display text-2xl text-white pl-2">
+                        <div className="font-display text-2xl text-white">
                           {player.score}
                         </div>
                       </div>
