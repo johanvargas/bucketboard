@@ -112,11 +112,7 @@ export default function Leaderboard() {
               index === currentSlide ? "opacity-100" : "opacity-1"
             }`}
           >
-            <img
-              src={logo.src}
-              alt={logo.alt}
-              className="w-270"
-            />
+            <img src={logo.src} alt={logo.alt} className="w-270" />
           </div>
         ))}
       </div>
@@ -126,8 +122,8 @@ export default function Leaderboard() {
         <div className="text-center">
           <div className="w-full">
             {/*<h1 className="w-full font-display text-[6em] font-bold text-white tracking-wide uppercase text-center">*/}
-            <h1 className="inline-block text-[9em] uppercase tracking-widest font-extrabold">
-              Leaderboard
+            <h1 className="inline-block text-[8em] uppercase tracking-[4.7vw] font-black">
+              <span className="align-top">Leaderboard</span>
             </h1>
           </div>
         </div>
@@ -141,9 +137,7 @@ export default function Leaderboard() {
         {/* Leaderboard */}
         {loading ? (
           <div className="leaderboard flex-1 flex">
-            <p className="">
-              Loading leaderboard...
-            </p>
+            <p className="">Loading leaderboard...</p>
           </div>
         ) : players.length === 0 ? (
           <div className="leaderboard flex-1 flex bg-black">
@@ -152,67 +146,66 @@ export default function Leaderboard() {
             </p>
           </div>
         ) : (
-          <div className="">
-            <div className="grid grid-cols-2">
-              {/* Left column */}
-              <div className="flex flex-col gap-7">
-                {players.slice(0, Math.ceil(players.length / 2)).map((player, index) => (
-                  <div
-                    key={player.session_id}
-                    className="flex-1 flex"
-                  >
-                    <div className="flex">
-                      <div className="flex items-center">
-                        {/* Magenta rank badge */}
-                        <div className="font-display bg-magenta-500 text-[2.5em] text-white py-3 px-10">
-                          {index + 1}
+            <div className="grid grid-cols-2 font-black uppercase tracking-[0.6rem]">
+              {/* LEFT COLUMN */}
+              <div className="flex flex-col gap-6">
+                {players
+                  .slice(0, Math.ceil(players.length / 2))
+                  .map((player, index) => (
+
+                    <div key={player.session_id} className="flex-1 flex">
+                      <div className="flex">
+                        <div className="flex items-center">
+                          {/* Magenta rank badge */}
+                          <div className="font-display bg-magenta-500 text-[2.5em] text-white py-3 px-9">
+                            {index + 1}
+                          </div>
+                          {/* White name container */}
+                          <div className="bg-white flex-1 py-3 px-10 w-140">
+                            <h3 className="font-display text-[2.5em] text-black ">
+                              {player.player}
+                            </h3>
+                          </div>
                         </div>
-                        {/* White name container */}
-                        <div className="bg-white flex-1 py-3 px-10 w-140">
-                          <h3 className="font-display text-[2.5em] text-black uppercase tracking-wide">
-                            {player.player}
-                          </h3>
-                        </div>
-                      </div>
-                      {/* Score on black background */}
-                      <div className="">
-                        <div className="font-display text-[2.5em] text-white ml-10">
-                          {player.score}
+                        {/* Score on black background */}
+                        <div className="">
+                          <div className="font-display text-[2.5em] text-white ml-10">
+                            {player.score}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </div>
-              {/* Right column */}
-              <div className="flex flex-col gap-7">
-                {players.slice(Math.ceil(players.length / 2)).map((player, index) => (
-                  <div
-                    key={player.session_id}
-                    className="flex-1 flex items-center">
-                    <div className="flex items-center justify-between w-full">
-                      <div className="flex items-center">
-                        {/* Magenta rank badge */}
-                        <div className="bg-magenta-500 text-white text-[2.5em] w-10 flex items-center justify-center py-3 px-2">
-                          {Math.ceil(players.length / 2) + index + 1}
+
+              {/* RIGHT COLUMN */}
+              <div className="flex flex-col gap-6">
+                {players
+                  .slice(Math.ceil(players.length / 2))
+                  .map((player, index) => (
+                    <div key={player.session_id} className="flex-1 flex">
+                      <div className="flex">
+                        <div className="flex items-center">
+                          {/* Magenta rank badge */}
+                          <div className="font-display bg-magenta-500 text-[2.5em] text-white py-3 px-9">
+                            {Math.ceil(players.length / 2) + index + 1}
+                          </div>
+                          {/* White name container */}
+                          <div className="bg-white flex-1 py-3 px-10 w-140">
+                            <h3 className="font-display text-[2.5em] text-black">
+                              {player.player}
+                            </h3>
+                          </div>
                         </div>
-                        {/* White name container */}
-                        <div className="bg-white flex-1 py-3 px-1 w-xl">
-                          <h3 className="text-[2.5em] text-black uppercase">
-                            {player.player}
-                          </h3>
-                        </div>
-                      </div>
-                      {/* Score on black background */}
-                        <div className="text-[2.5em] text-white">
+                        {/* Score on black background */}
+                        <div className="text-[2.5em] text-white ml-9">
                           {player.score}
                         </div>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             </div>
-          </div>
         )}
       </div>
     </div>

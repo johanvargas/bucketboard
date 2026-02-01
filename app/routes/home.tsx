@@ -39,6 +39,7 @@ export default function Home() {
   });
   const [message, setMessage] = useState("");
   const wes = useRef(null);
+  const queryTray = useRef([]);
 
   const updateMessage = (message) => {
     let messageStr = message;
@@ -188,10 +189,10 @@ export default function Home() {
     const [info, setInfo] = useState("my eyes");
 
     useEffect(() => {
-        setInfo(message);
-        setTimeout(() => {
-          setInfo("");
-        }, 3000);
+      setInfo(message);
+      setTimeout(() => {
+        setInfo("");
+      }, 3000);
     }, []);
 
     //if (message) {
@@ -204,7 +205,9 @@ export default function Home() {
         {info && (
           <div className="serial-msg fixed top-6 left-6 z-50">
             <div className="flex items-center gap-3 px-5 py-3 bg-blue-600 rounded-lg shadow-xl">
-              <p className="text-white text-[1rem] font-medium tracking-wide">{info}</p>
+              <p className="text-white text-[1rem] font-medium tracking-wide">
+                {info}
+              </p>
             </div>
           </div>
         )}
@@ -241,12 +244,13 @@ export default function Home() {
     );
   }
 
-  const systemFont = 'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
+  const systemFont =
+    'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
 
   return (
     <div className="min-h-screen bg-black" style={{ fontFamily: systemFont }}>
       <div className="container mx-auto">
-        <InfoDialogue  message={message}/>
+        <InfoDialogue message={message} />
         <br />
         {/* Header */}
         <div className="mb-5 text-center">
@@ -285,11 +289,11 @@ export default function Home() {
           </div>
         )}
 
-        {/* Form Modal */}
+        {/* Form */}
         {showForm && (
           <div className="action-window fixed inset-0 z-50 flex items-center justify-center">
             {/* Backdrop */}
-            <div 
+            <div
               className="absolute inset-0 bg-black/80 backdrop-blur-sm"
               onClick={handleCancel}
             />
@@ -301,11 +305,22 @@ export default function Home() {
                 onClick={handleCancel}
                 className="absolute top-4 right-4 p-2 text-gray-500 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
-              
+
               <h2 className="font-display text-[2rem] text-white mb-6">
                 {editingPlayer ? "Edit Player" : "Add New Player"}
               </h2>
@@ -366,6 +381,15 @@ export default function Home() {
 
         {/* SEARCHBAR */}
         <Search />
+        <div className="h-10 text-white">
+          {queryTray.current.length != 0
+            ? queryTray.current.filter((match) => (
+                <>
+                  <p>we have a match</p>
+                </>
+              ))
+            : "no matches at the moment"}
+        </div>
         {/* Players List */}
         {loading ? (
           <div className="text-center">
