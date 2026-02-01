@@ -101,81 +101,82 @@ export default function Leaderboard() {
   };
 
   return (
-    <div className="h-screen bg-black flex flex-col text-[130%]">
+    <div className="bg-black flex flex-col">
       {/* Image Carousel - 1/3 of page */}
       {/*<div className="h-[33vh] object-cover">*/}
-      <div className="object-cover relative h-80 pt-5">
+      <div className="object-cover relative h-100 -top-10">
         {logoImages.map((logo, index) => (
           <div
             key={logo.alt}
-            className={`absolute inset-0 flex items-center justify-center transition-opacity duration-700 ${
-              index === currentSlide ? "opacity-100" : "opacity-0"
+            className={`absolute flex items-center w-screen justify-center transition-opacity duration-900 ${
+              index === currentSlide ? "opacity-100" : "opacity-1"
             }`}
           >
             <img
               src={logo.src}
               alt={logo.alt}
-              className="w-400"
+              className="w-270"
             />
           </div>
         ))}
       </div>
 
-      <div className="container mx-auto px-4 py-4 flex-1 flex flex-col">
+      <div className="container mx-auto flex-1 flex flex-col">
         {/* Header */}
         <div className="text-center">
-          <div className="w-full mb-2">
-            <h1 className="w-full font-display text-[6.32rem] font-bold text-white tracking-wide uppercase text-center">
+          <div className="w-full">
+            {/*<h1 className="w-full font-display text-[6em] font-bold text-white tracking-wide uppercase text-center">*/}
+            <h1 className="inline-block text-[9em] uppercase tracking-widest font-extrabold">
               Leaderboard
             </h1>
           </div>
         </div>
         {/* Error Message */}
         {error && (
-          <div className="mb-2 p-2 bg-magenta-950 text-white rounded-lg text-sm font-medium flex-shrink-0">
+          <div className="bg-magenta-950 text-white rounded-lg text-sm font-medium flex-shrink-0">
             {error}
           </div>
         )}
 
         {/* Leaderboard */}
         {loading ? (
-          <div className="leaderboard flex-1 flex items-center justify-center min-h-0">
-            <p className="text-xl font-medium text-gray-400">
+          <div className="leaderboard flex-1 flex">
+            <p className="">
               Loading leaderboard...
             </p>
           </div>
         ) : players.length === 0 ? (
-          <div className="leaderboard flex-1 flex items-center justify-center min-h-0 bg-black rounded-lg border border-gray-800">
-            <p className="text-xl font-medium text-gray-400">
+          <div className="leaderboard flex-1 flex bg-black">
+            <p className="">
               No players found. Add players to see the leaderboard!
             </p>
           </div>
         ) : (
-          <div className="leaderboard flex-1 min-h-0 bg-black">
-            <div className="grid grid-cols-2 gap-8 h-full">
+          <div className="">
+            <div className="grid grid-cols-2">
               {/* Left column */}
-              <div className="flex flex-col">
+              <div className="flex flex-col gap-7">
                 {players.slice(0, Math.ceil(players.length / 2)).map((player, index) => (
                   <div
                     key={player.session_id}
-                    className="flex-1 flex items-center"
+                    className="flex-1 flex"
                   >
-                    <div className="flex items-center justify-between w-full">
-                      <div className="flex items-center gap-0">
+                    <div className="flex">
+                      <div className="flex items-center">
                         {/* Magenta rank badge */}
-                        <div className="font-display bg-magenta-500 text-white text-2xl w-10 h-full flex items-center justify-center py-3 px-2">
+                        <div className="font-display bg-magenta-500 text-[2.5em] text-white py-3 px-10">
                           {index + 1}
                         </div>
                         {/* White name container */}
-                        <div className="bg-white flex-1 py-3 px-4 w-150">
-                          <h3 className="font-display text-2xl text-black uppercase tracking-wide">
+                        <div className="bg-white flex-1 py-3 px-10 w-140">
+                          <h3 className="font-display text-[2.5em] text-black uppercase tracking-wide">
                             {player.player}
                           </h3>
                         </div>
                       </div>
                       {/* Score on black background */}
-                      <div className="text-right">
-                        <div className="font-display text-2xl text-white">
+                      <div className="">
+                        <div className="font-display text-[2.5em] text-white ml-10">
                           {player.score}
                         </div>
                       </div>
@@ -184,31 +185,28 @@ export default function Leaderboard() {
                 ))}
               </div>
               {/* Right column */}
-              <div className="flex flex-col">
+              <div className="flex flex-col gap-7">
                 {players.slice(Math.ceil(players.length / 2)).map((player, index) => (
                   <div
                     key={player.session_id}
-                    className="flex-1 flex items-center"
-                  >
+                    className="flex-1 flex items-center">
                     <div className="flex items-center justify-between w-full">
-                      <div className="flex items-center gap-0 w-150">
+                      <div className="flex items-center">
                         {/* Magenta rank badge */}
-                        <div className="font-display bg-magenta-500 text-white text-2xl w-10 h-full flex items-center justify-center py-3 px-2">
+                        <div className="bg-magenta-500 text-white text-[2.5em] w-10 flex items-center justify-center py-3 px-2">
                           {Math.ceil(players.length / 2) + index + 1}
                         </div>
                         {/* White name container */}
-                        <div className="bg-white flex-1 py-3 px-4">
-                          <h3 className="font-display text-2xl text-black uppercase tracking-wide">
+                        <div className="bg-white flex-1 py-3 px-1 w-xl">
+                          <h3 className="text-[2.5em] text-black uppercase">
                             {player.player}
                           </h3>
                         </div>
                       </div>
                       {/* Score on black background */}
-                      <div className="text-right">
-                        <div className="font-display text-2xl text-white">
+                        <div className="text-[2.5em] text-white">
                           {player.score}
                         </div>
-                      </div>
                     </div>
                   </div>
                 ))}

@@ -140,3 +140,6 @@ vite.config.ts.timestamp-*
 
 # personal entries
 .react*
+
+.DS_Store
+build/

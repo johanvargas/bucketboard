@@ -1,6 +1,6 @@
 import type { Route } from "./+types/home";
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router";
+import { Link, useFetcher } from "react-router";
 import { IP_ADDRESS, API_BASE_URL } from "./config";
 
 interface Player {
@@ -30,6 +30,7 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [editingPlayer, setEditingPlayer] = useState<Player | null>(null);
   const [showForm, setShowForm] = useState(false);
+  const [name, setName] = useState("");
   const [formData, setFormData] = useState({
     player: "",
     score: "",
@@ -51,10 +52,12 @@ export default function Home() {
     setMessage(String(messageStr));
   };
 
+  let fetcher = useFetcher();
+
+  /* useEffects */
   useEffect(() => {
     // websocket send data to leaderboard
     wes.current = new WebSocket(`ws://${IP_ADDRESS}:5634`);
-
     wes.current.onopen = () => {
       // when receiving a message
       wes.current.onmessage = (data) => {
@@ -163,13 +166,13 @@ export default function Home() {
   };
 
   // uses vite hmr, was its own ws/wss server running
-  const handleWS = () => {
-    if (import.meta.hot) {
-      import.meta.hot.send("my-custom-event", {
-        message: "Hello from the browser!",
-      });
-    }
-  };
+  //const handleWS = () => {
+  //  if (import.meta.hot) {
+  //    import.meta.hot.send("my-custom-event", {
+  //      message: "Hello from the browser!",
+  //    });
+  //  }
+  //};
 
   async function handleFetch() {
     //const response = await fetch("http://127.0.0.1:5634");
@@ -201,6 +204,28 @@ export default function Home() {
         <p>{info}</p>
       </>
     );
+  }
+
+//  function Search () {
+//    return (
+//      <>
+//        <fetcher.Form onSubmit={""} className="m-[5em]">
+//          <label>Search PLAYER</label>
+//          <input type="text"
+//						value={name}
+//						name="name"
+//						onChange={(e) => handleSearchTerm(e.target.value)}
+//						placeholder="Enter Username"
+//            className="bg-white text-black m-2 p-2"
+//          />
+//          <button type="submit">Search</button>
+//        </fetcher.Form>
+//      </>
+//    )
+//  }
+//
+  function handleSearchTerm (char) {
+    return setName(char)
   }
 
   return (
@@ -313,6 +338,19 @@ export default function Home() {
             </form>
           </div>
         )}
+
+        {/* SEARCHBAR */}
+        <fetcher.Form onSubmit={""} className="m-[5em]">
+          <label>Search PLAYER</label>
+          <input type="text"
+						value={name}
+						name="name"
+						onChange={(e) => handleSearchTerm(e.target.value)}
+						placeholder="Enter Username"
+            className="bg-white text-black m-2 p-2"
+          />
+          <button type="submit">Search</button>
+        </fetcher.Form>
 
         {/* Players List */}
         {loading ? (
