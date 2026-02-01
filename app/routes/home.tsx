@@ -179,7 +179,7 @@ export default function Home() {
     //if (!response.ok) {
     //  throw new Error(`Response status: ${response.status}`);
     //};
-    wes.current.send(String("Seite Aktualisiert!"));
+    wes.current.send(String("Leaderboard Updated!"));
     console.log("web socket message sent");
   }
 
@@ -204,7 +204,6 @@ export default function Home() {
         {info && (
           <div className="serial-msg fixed top-6 left-6 z-50">
             <div className="flex items-center gap-3 px-5 py-3 bg-blue-600 rounded-lg shadow-xl">
-              <span className="text-white text-[1.25rem]">●</span>
               <p className="text-white text-[1rem] font-medium tracking-wide">{info}</p>
             </div>
           </div>
@@ -223,7 +222,6 @@ export default function Home() {
     return (
       <div className="mb-8">
         <fetcher.Form className="search-form flex items-center gap-4 p-5 bg-gray-900/50 rounded-xl border border-gray-800 hover:border-gray-700 transition-all duration-200">
-          <label className="text-gray-400 text-[1rem]">Search</label>
           <input
             type="text"
             value={name}
@@ -287,30 +285,48 @@ export default function Home() {
           </div>
         )}
 
-        {/* Form */}
+        {/* Form Modal */}
         {showForm && (
-          <div className="mb-8 bg-black rounded-xl border-2 border-gray-800 p-8 hover:border-magenta-500 transition-colors duration-200">
-            <h2 className="font-display text-[2.1375rem] text-white mb-6">
-              {editingPlayer ? "Edit Player" : "Add New Player"}
-            </h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label className="block text-[1.1875rem] font-serif text-white mb-2">
-                  Player Name
-                </label>
-                <input
-                  type="text"
-                  value={formData.player}
-                  onChange={(e) =>
-                    setFormData({ ...formData, player: e.target.value })
-                  }
-                  required
-                  className="font-serif w-full px-4 py-3 text-[1.06875rem] border-2 border-gray-700 rounded-lg focus:ring-2 focus:ring-magenta-500 focus:border-magenta-500 bg-gray-900 text-white"
-                  placeholder="Enter player name"
-                />
-              </div>
+          <div className="action-window fixed inset-0 z-50 flex items-center justify-center">
+            {/* Backdrop */}
+            <div 
+              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+              onClick={handleCancel}
+            />
+            {/* Modal Content */}
+            <div className="relative w-full max-w-xl mx-4 bg-gray-950 rounded-2xl border border-gray-800 p-8 shadow-2xl shadow-magenta-500/10 animate-in fade-in zoom-in-95 duration-200">
+              {/* Close Button */}
+              <button
+                type="button"
+                onClick={handleCancel}
+                className="absolute top-4 right-4 p-2 text-gray-500 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              
+              <h2 className="font-display text-[2rem] text-white mb-6">
+                {editingPlayer ? "Edit Player" : "Add New Player"}
+              </h2>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                  <label className="block text-[1.1875rem] font-serif text-white mb-2">
+                    Player Name
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.player}
+                    onChange={(e) =>
+                      setFormData({ ...formData, player: e.target.value })
+                    }
+                    required
+                    autoFocus
+                    className="font-serif w-full px-4 py-3 text-[1.06875rem] border-2 border-gray-700 rounded-lg focus:ring-2 focus:ring-magenta-500 focus:border-magenta-500 bg-gray-900 text-white"
+                    placeholder="Enter player name"
+                  />
+                </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div>
                   <label className="block text-[1.1875rem] font-serif text-white mb-2">
                     Shots Made
@@ -327,23 +343,24 @@ export default function Home() {
                     className="font-display w-full px-4 py-3 text-[1.06875rem] border-2 border-gray-700 rounded-lg focus:ring-2 focus:ring-magenta-500 focus:border-magenta-500 bg-gray-900 text-white"
                   />
                 </div>
-              </div>
-              <div className="flex gap-4">
-                <button
-                  type="submit"
-                  className="font-display px-8 py-4 bg-magenta-500 hover:bg-magenta-400 text-white text-[1.1875rem] rounded-lg transition-colors duration-200"
-                >
-                  {editingPlayer ? "Update Player" : "Add Player"}
-                </button>
-                <button
-                  type="button"
-                  onClick={handleCancel}
-                  className="font-display px-8 py-4 bg-gray-800 hover:bg-gray-700 text-white text-[1.1875rem] rounded-lg transition-colors duration-200"
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
+
+                <div className="flex gap-4 pt-4">
+                  <button
+                    type="submit"
+                    className="font-display flex-1 px-8 py-4 bg-magenta-500 hover:bg-magenta-400 text-white text-[1.1875rem] rounded-lg transition-colors duration-200"
+                  >
+                    {editingPlayer ? "Update Player" : "Add Player"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleCancel}
+                    className="font-display flex-1 px-8 py-4 bg-gray-800 hover:bg-gray-700 text-white text-[1.1875rem] rounded-lg transition-colors duration-200"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         )}
 
@@ -367,39 +384,42 @@ export default function Home() {
             {players.map((player) => (
               <div
                 key={player.session_id}
-                className="bg-black rounded-xl border-2 border-gray-800 p-6 hover:border-magenta-500 transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg active:shadow-md"
+                className="bg-black rounded-xl border-2 border-gray-800 p-6 hover:border-magenta-500 transition-all duration-300 ease-in-out transform hover:scale-[1em] active:scale-[0.98] shadow-md hover:shadow-lg active:shadow-md"
               >
-                <div className="mb-2">
-                  <h3 className="font-display text-[1.5rem] font-bold text-white mb-2">
-                    {player.player}
-                  </h3>
-                  <div className="space-y-2 font-serif">
-                    <div className="flex justify-between items-center">
-                      <span className="text-[1rem] text-gray-400">
-                        Score:
-                      </span>
-                      <span className="font-display text-[1rem] text-magenta-400">
-                        {player.score}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-[1rem] text-gray-400">
-                        Place:
-                      </span>
-                      <span className="font-display text-[1rem] text-white">
-                        #{player.place}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-[1rem] text-gray-400">
-                        Top Ten:
-                      </span>
-                      <span
-                        className={`font-display text-[1.1875rem] ${player.top_ten ? "text-magenta-400" : "text-gray-600"}`}
-                      >
-                        {player.place <= 10 ? "Yes" : "No"}
-                      </span>
-                    </div>
+                <div className="grid grid-cols-4 gap-3">
+                  <div className="flex flex-col justify-center py-3 px-4 bg-gradient-to-br from-gray-900/80 to-gray-900/40 rounded-lg border border-gray-700/50">
+                    <span className="text-[0.75rem] uppercase tracking-wider text-gray-500 mb-1">
+                      Player
+                    </span>
+                    <h3 className="text-[1.25rem] font-bold text-white truncate">
+                      {player.player}
+                    </h3>
+                  </div>
+                  <div className="flex flex-col items-center justify-center py-3 px-2 bg-gray-900/60 rounded-lg border border-gray-800/50">
+                    <span className="text-[0.75rem] uppercase tracking-wider text-gray-500 mb-1">
+                      Score
+                    </span>
+                    <span className="font-display text-[1.5rem] font-semibold text-magenta-400">
+                      {player.score}
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center justify-center py-3 px-2 bg-gray-900/60 rounded-lg border border-gray-800/50">
+                    <span className="text-[0.75rem] uppercase tracking-wider text-gray-500 mb-1">
+                      Place
+                    </span>
+                    <span className="font-display text-[1.5rem] font-semibold text-white">
+                      #{player.place}
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center justify-center py-3 px-2 bg-gray-900/60 rounded-lg border border-gray-800/50">
+                    <span className="text-[0.75rem] uppercase tracking-wider text-gray-500 mb-1">
+                      Top Ten
+                    </span>
+                    <span
+                      className={`font-display text-[1.5rem] font-semibold ${player.place <= 10 ? "text-magenta-400" : "text-gray-600"}`}
+                    >
+                      {player.place <= 10 ? "Yes" : "No"}
+                    </span>
                   </div>
                 </div>
                 <div className="flex gap-3 mt-6">

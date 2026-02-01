@@ -28,7 +28,7 @@ wsServer.on("connection", (connection, request) => {
   connections[uuid] = connection;
 
   console.log("client connected : #", uuid);
-  connection.send(`Wilkommen, ${uuid} zu nach Haus!`);
+  connection.send(`${uuid} connected!`);
 
   const handleMessage = (message, uuid) => {
     let mensaje = "no messages yet";
