@@ -30,7 +30,7 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [editingPlayer, setEditingPlayer] = useState<Player | null>(null);
   const [showForm, setShowForm] = useState(false);
-  const [name, setName] = useState("");
+
   const [formData, setFormData] = useState({
     player: "",
     score: "",
@@ -201,52 +201,60 @@ export default function Home() {
     //}
     return (
       <>
-        <p>{info}</p>
+        {info && (
+          <div className="serial-msg fixed top-6 left-6 z-50">
+            <div className="flex items-center gap-3 px-5 py-3 bg-blue-600 rounded-lg shadow-xl">
+              <span className="text-white text-[1.25rem]">●</span>
+              <p className="text-white text-[1rem] font-medium tracking-wide">{info}</p>
+            </div>
+          </div>
+        )}
       </>
     );
   }
 
-//  function Search () {
-//    return (
-//      <>
-//        <fetcher.Form onSubmit={""} className="m-[5em]">
-//          <label>Search PLAYER</label>
-//          <input type="text"
-//						value={name}
-//						name="name"
-//						onChange={(e) => handleSearchTerm(e.target.value)}
-//						placeholder="Enter Username"
-//            className="bg-white text-black m-2 p-2"
-//          />
-//          <button type="submit">Search</button>
-//        </fetcher.Form>
-//      </>
-//    )
-//  }
-//
-  function handleSearchTerm (char) {
-    return setName(char)
+  function Search() {
+    const [name, setName] = useState("");
+
+    function handleSearchTerm(char: string) {
+      return setName(char);
+    }
+
+    return (
+      <div className="mb-8">
+        <fetcher.Form className="search-form flex items-center gap-4 p-5 bg-gray-900/50 rounded-xl border border-gray-800 hover:border-gray-700 transition-all duration-200">
+          <label className="text-gray-400 text-[1rem]">Search</label>
+          <input
+            type="text"
+            value={name}
+            name="name"
+            onChange={(e) => handleSearchTerm(e.target.value)}
+            placeholder="Enter player name..."
+            className="flex-1 px-4 py-2.5 bg-black text-white border border-gray-700 rounded-lg focus:outline-none focus:border-magenta-500 transition-colors duration-200 placeholder-gray-500"
+          />
+          <button
+            type="submit"
+            className="px-6 py-2.5 bg-magenta-500 hover:bg-magenta-400 text-white rounded-lg transition-all duration-200 hover:shadow-lg"
+          >
+            Search
+          </button>
+        </fetcher.Form>
+      </div>
+    );
   }
 
+  const systemFont = 'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
+
   return (
-    <div className="min-h-screen bg-black">
-      <div className="container mx-auto px-4 py-12 max-w-6xl">
+    <div className="min-h-screen bg-black" style={{ fontFamily: systemFont }}>
+      <div className="container mx-auto">
         <InfoDialogue  message={message}/>
         <br />
-        <br />
         {/* Header */}
-        <div className="mb-12 text-center">
-          <h1 className="font-display text-[5n rem] mb-4 tracking-tight uppercase">
-            <span className="bg-gradient-to-r from-magenta-400 via-magenta-500 to-white bg-clip-text text-transparent">
-              B-Ball
-            </span>{" "}
-            <span className="bg-gradient-to-r from-white via-magenta-500 to-magenta-400 bg-clip-text text-transparent">
-              Showdown
-            </span>
-          </h1>
-          <p className="text-[1.425rem] text-gray-400 font-serif mb-6">
+        <div className="mb-5 text-center">
+          <h2 className="text-[2em] text-gray-400 font-sans-serif mb-6">
             Manage scores and rankings
-          </p>
+          </h2>
           {/* Action Buttons */}
           <div className="flex justify-around items-center">
             <button
@@ -340,61 +348,50 @@ export default function Home() {
         )}
 
         {/* SEARCHBAR */}
-        <fetcher.Form onSubmit={""} className="m-[5em]">
-          <label>Search PLAYER</label>
-          <input type="text"
-						value={name}
-						name="name"
-						onChange={(e) => handleSearchTerm(e.target.value)}
-						placeholder="Enter Username"
-            className="bg-white text-black m-2 p-2"
-          />
-          <button type="submit">Search</button>
-        </fetcher.Form>
-
+        <Search />
         {/* Players List */}
         {loading ? (
-          <div className="text-center py-12">
-            <p className="text-[1.425rem] font-bold text-gray-400">
+          <div className="text-center">
+            <p className="text-[1em] font-bold text-gray-400">
               Loading players...
             </p>
           </div>
         ) : players.length === 0 ? (
           <div className="text-center py-12 bg-black rounded-xl border-2 border-gray-800">
-            <p className="text-[1.425rem] font-bold text-gray-400">
-              No players found. Show them you got GAME!
+            <p className="text-[1rem] font-bold text-gray-400">
+              No players found! Time to show them you got GAME!
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-5">
             {players.map((player) => (
               <div
                 key={player.session_id}
                 className="bg-black rounded-xl border-2 border-gray-800 p-6 hover:border-magenta-500 transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg active:shadow-md"
               >
-                <div className="mb-4">
-                  <h3 className="font-display text-[1.78125rem] text-white mb-2">
+                <div className="mb-2">
+                  <h3 className="font-display text-[1.5rem] font-bold text-white mb-2">
                     {player.player}
                   </h3>
                   <div className="space-y-2 font-serif">
                     <div className="flex justify-between items-center">
-                      <span className="text-[1.06875rem] text-gray-400">
+                      <span className="text-[1rem] text-gray-400">
                         Score:
                       </span>
-                      <span className="font-display text-[1.425rem] text-magenta-400">
+                      <span className="font-display text-[1rem] text-magenta-400">
                         {player.score}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-[1.06875rem] text-gray-400">
+                      <span className="text-[1rem] text-gray-400">
                         Place:
                       </span>
-                      <span className="font-display text-[1.425rem] text-white">
+                      <span className="font-display text-[1rem] text-white">
                         #{player.place}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-[1.06875rem] text-gray-400">
+                      <span className="text-[1rem] text-gray-400">
                         Top Ten:
                       </span>
                       <span
