@@ -28,7 +28,7 @@ wsServer.on("connection", (connection, request) => {
   connections[uuid] = connection;
 
   console.log("client connected : #", uuid);
-  connection.send(`client ${uuid.substring(0,5)} connected!`);
+  connection.send(`client ${uuid.substring(0,5)} connected`);
 
   const handleMessage = (message, uuid) => {
     let mensaje = "no messages yet";
@@ -59,5 +59,5 @@ wsServer.on("connection", (connection, request) => {
 });
 
 server.listen(port, () => {
-  console.log(`WebSocket server is running on port ${port}`);
+  console.log(`WebSocket server -- BUCKETBALL -- is running on port ${port}`);
 });

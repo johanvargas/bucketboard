@@ -130,7 +130,7 @@ export default function Home() {
       setFormData({ player: "", score: "", top_ten: false, place: 13 });
       fetchPlayers();
 
-      wes.current.send(String("Leaderboard Updated!"));
+      wes.current.send(String("Leaderboard Updated"));
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to save player");
     }
@@ -186,7 +186,7 @@ export default function Home() {
 
   // functionality dialogue, websocket communication
   function InfoDialogue({ message }) {
-    const [info, setInfo] = useState("my eyes");
+    const [info, setInfo] = useState("fuck ice");
 
     useEffect(() => {
       setInfo(message);
@@ -326,7 +326,7 @@ export default function Home() {
               </h2>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label className="block text-[1.1875rem] font-serif text-white mb-2">
+                  <label className="block text-[1.1875rem]  text-white mb-2">
                     Player Name
                   </label>
                   <input
@@ -337,13 +337,13 @@ export default function Home() {
                     }
                     required
                     autoFocus
-                    className="font-serif w-full px-4 py-3 text-[1.06875rem] border-2 border-gray-700 rounded-lg focus:ring-2 focus:ring-magenta-500 focus:border-magenta-500 bg-gray-900 text-white"
+                    className=" w-full px-4 py-3 text-[1.06875rem] border-2 border-gray-700 rounded-lg focus:ring-2 focus:ring-magenta-500 focus:border-magenta-500 bg-gray-900 text-white"
                     placeholder="Enter player name"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[1.1875rem] font-serif text-white mb-2">
+                  <label className="block text-[1.1875rem]  text-white mb-2">
                     Shots Made
                   </label>
                   <input
