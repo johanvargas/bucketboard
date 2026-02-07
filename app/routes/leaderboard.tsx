@@ -157,7 +157,7 @@ export default function Leaderboard() {
                       <div className="flex">
                         <div className="flex items-center">
                           {/* Magenta rank badge */}
-                          <div className="font-display bg-magenta-500 text-[2.5em] text-white py-3 px-9">
+                          <div className="rank font-display bg-magenta-500 text-[2.5em] text-white py-3 w-20 text-center">
                             {index + 1}
                           </div>
                           {/* White name container */}
@@ -187,7 +187,7 @@ export default function Leaderboard() {
                       <div className="flex">
                         <div className="flex items-center">
                           {/* Magenta rank badge */}
-                          <div className="font-display bg-magenta-500 text-[2.5em] text-white py-3 px-9">
+                          <div className="font-display bg-magenta-500 text-[2.5em] text-white py-3 w-20 text-center">
                             {Math.ceil(players.length / 2) + index + 1}
                           </div>
                           {/* White name container */}

@@ -1,6 +1,6 @@
 import type { Route } from "./+types/home";
 import { useState, useEffect, useRef } from "react";
-import { Link, useFetcher } from "react-router";
+import { Link } from "react-router";
 import { IP_ADDRESS, API_BASE_URL } from "./config";
 
 interface Player {
@@ -38,8 +38,8 @@ export default function Home() {
     place: 13,
   });
   const [message, setMessage] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const wes = useRef(null);
-  const queryTray = useRef([]);
 
   const updateMessage = (message) => {
     let messageStr = message;
@@ -52,8 +52,6 @@ export default function Home() {
     }
     setMessage(String(messageStr));
   };
-
-  let fetcher = useFetcher();
 
   /* useEffects */
   useEffect(() => {
@@ -215,67 +213,52 @@ export default function Home() {
     );
   }
 
-  function Search() {
-    const [name, setName] = useState("");
+  const rankMap = new Map(
+    [...players]
+      .sort((a, b) => b.score - a.score)
+      .map((player, index) => [player.session_id, index + 1])
+  );
 
-    function handleSearchTerm(char: string) {
-      return setName(char);
-    }
-
-    return (
-      <div className="mb-8">
-        <fetcher.Form className="search-form flex items-center gap-4 p-5 bg-gray-900/50 rounded-xl border border-gray-800 hover:border-gray-700 transition-all duration-200">
-          <input
-            type="text"
-            value={name}
-            name="name"
-            onChange={(e) => handleSearchTerm(e.target.value)}
-            placeholder="Enter player name..."
-            className="flex-1 px-4 py-2.5 bg-black text-white border border-gray-700 rounded-lg focus:outline-none focus:border-magenta-500 transition-colors duration-200 placeholder-gray-500"
-          />
-          <button
-            type="submit"
-            className="px-6 py-2.5 bg-magenta-500 hover:bg-magenta-400 text-white rounded-lg transition-all duration-200 hover:shadow-lg"
-          >
-            Search
-          </button>
-        </fetcher.Form>
-      </div>
-    );
-  }
+  const filteredPlayers = players.filter((player) =>
+    player.player.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const systemFont =
     'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
 
   return (
     <div className="min-h-screen bg-black" style={{ fontFamily: systemFont }}>
-      <div className="container mx-auto">
+      <div className="container mx-auto px-4 sm:px-6 md:px-10 lg:px-6">
         <InfoDialogue message={message} />
         <br />
         {/* Header */}
-        <div className="mb-5 text-center">
-          <h2 className="text-[2em] text-gray-400 font-sans-serif mb-6">
+        <div className="mb-8 md:mb-10 text-center pt-4">
+          <h1 className="text-[2.5rem] md:text-[3rem] lg:text-[3.5rem] font-bold tracking-tight text-white mb-2">
+            Bucket<span className="text-magenta-500">board</span>
+          </h1>
+          <p className="text-[1rem] md:text-[1.125rem] text-gray-500 tracking-wide font-light">
             Manage scores and rankings
-          </h2>
+          </p>
+          <div className="mx-auto mt-4 mb-6 md:mb-8 w-24 h-[2px] bg-gradient-to-r from-transparent via-magenta-500 to-transparent" />
           {/* Action Buttons */}
-          <div className="flex justify-around items-center">
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center items-stretch sm:items-center gap-3 md:gap-4">
             <button
               onClick={handleFetch}
-              className="font-display min-w-[220px] px-[35.2px] py-[17.6px] bg-gray-800 hover:bg-gray-700 text-white text-[1.1875rem] rounded-lg transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg active:shadow-md border border-gray-700"
+              className="font-display w-full sm:w-auto min-w-[200px] px-6 py-4 md:py-[18px] bg-gray-800 hover:bg-gray-700 active:bg-gray-600 text-white text-[1.0625rem] md:text-[1.1875rem] rounded-xl transition-all duration-300 ease-in-out shadow-md hover:shadow-lg active:shadow-md border border-gray-700 select-none touch-manipulation"
             >
               Refresh Leaderboard
             </button>
             {!showForm && (
               <button
                 onClick={() => setShowForm(true)}
-                className="font-display min-w-[220px] px-[35.2px] py-[17.6px] bg-magenta-600 hover:bg-magenta-500 text-white text-[1.1875rem] rounded-lg transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg active:shadow-md"
+                className="font-display w-full sm:w-auto min-w-[200px] px-6 py-4 md:py-[18px] bg-magenta-600 hover:bg-magenta-500 active:bg-magenta-400 text-white text-[1.0625rem] md:text-[1.1875rem] rounded-xl transition-all duration-300 ease-in-out shadow-md hover:shadow-lg active:shadow-md select-none touch-manipulation"
               >
                 + Add New Player
               </button>
             )}
             <Link
               to="/leaderboard"
-              className="font-display min-w-[220px] inline-block px-[35.2px] py-[17.6px] bg-magenta-500 hover:bg-magenta-400 text-white text-[1.1875rem] rounded-lg transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg active:shadow-md text-center"
+              className="font-display w-full sm:w-auto min-w-[200px] inline-block px-6 py-4 md:py-[18px] bg-magenta-500 hover:bg-magenta-400 active:bg-magenta-300 text-white text-[1.0625rem] md:text-[1.1875rem] rounded-xl transition-all duration-300 ease-in-out shadow-md hover:shadow-lg active:shadow-md text-center select-none touch-manipulation"
             >
               View Leaderboard →
             </Link>
@@ -298,12 +281,12 @@ export default function Home() {
               onClick={handleCancel}
             />
             {/* Modal Content */}
-            <div className="relative w-full max-w-xl mx-4 bg-gray-950 rounded-2xl border border-gray-800 p-8 shadow-2xl shadow-magenta-500/10 animate-in fade-in zoom-in-95 duration-200">
+            <div className="relative w-full max-w-xl mx-4 md:mx-auto bg-gray-950 rounded-2xl border border-gray-800 p-6 md:p-8 shadow-2xl shadow-magenta-500/10 animate-in fade-in zoom-in-95 duration-200">
               {/* Close Button */}
               <button
                 type="button"
                 onClick={handleCancel}
-                className="absolute top-4 right-4 p-2 text-gray-500 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200"
+                className="absolute top-4 right-4 p-3 md:p-2 text-gray-500 hover:text-white hover:bg-gray-800 active:bg-gray-700 rounded-lg transition-colors duration-200 touch-manipulation"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -337,7 +320,7 @@ export default function Home() {
                     }
                     required
                     autoFocus
-                    className=" w-full px-4 py-3 text-[1.06875rem] border-2 border-gray-700 rounded-lg focus:ring-2 focus:ring-magenta-500 focus:border-magenta-500 bg-gray-900 text-white"
+                    className="w-full px-4 py-3.5 md:py-3 text-[1rem] md:text-[1.06875rem] border-2 border-gray-700 rounded-xl focus:ring-2 focus:ring-magenta-500 focus:border-magenta-500 bg-gray-900 text-white"
                     placeholder="Enter player name"
                   />
                 </div>
@@ -355,21 +338,21 @@ export default function Home() {
                       setFormData({ ...formData, score: e.target.value })
                     }
                     required
-                    className="font-display w-full px-4 py-3 text-[1.06875rem] border-2 border-gray-700 rounded-lg focus:ring-2 focus:ring-magenta-500 focus:border-magenta-500 bg-gray-900 text-white"
+                    className="font-display w-full px-4 py-3.5 md:py-3 text-[1rem] md:text-[1.06875rem] border-2 border-gray-700 rounded-xl focus:ring-2 focus:ring-magenta-500 focus:border-magenta-500 bg-gray-900 text-white"
                   />
                 </div>
 
-                <div className="flex gap-4 pt-4">
+                <div className="flex gap-3 md:gap-4 pt-4">
                   <button
                     type="submit"
-                    className="font-display flex-1 px-8 py-4 bg-magenta-500 hover:bg-magenta-400 text-white text-[1.1875rem] rounded-lg transition-colors duration-200"
+                    className="font-display flex-1 px-6 md:px-8 py-4 bg-magenta-500 hover:bg-magenta-400 active:bg-magenta-300 text-white text-[1.0625rem] md:text-[1.1875rem] rounded-xl transition-colors duration-200 select-none touch-manipulation"
                   >
                     {editingPlayer ? "Update Player" : "Add Player"}
                   </button>
                   <button
                     type="button"
                     onClick={handleCancel}
-                    className="font-display flex-1 px-8 py-4 bg-gray-800 hover:bg-gray-700 text-white text-[1.1875rem] rounded-lg transition-colors duration-200"
+                    className="font-display flex-1 px-6 md:px-8 py-4 bg-gray-800 hover:bg-gray-700 active:bg-gray-600 text-white text-[1.0625rem] md:text-[1.1875rem] rounded-xl transition-colors duration-200 select-none touch-manipulation"
                   >
                     Cancel
                   </button>
@@ -380,15 +363,17 @@ export default function Home() {
         )}
 
         {/* SEARCHBAR */}
-        <Search />
-        <div className="h-10 text-white">
-          {queryTray.current.length != 0
-            ? queryTray.current.filter((match) => (
-                <>
-                  <p>we have a match</p>
-                </>
-              ))
-            : "no matches at the moment"}
+        <div className="mb-6 md:mb-8">
+          <div className="search-form flex items-center gap-4 p-4 md:p-5 bg-gray-900/50 rounded-xl border border-gray-800 hover:border-gray-700 transition-all duration-200">
+            <input
+              type="text"
+              value={searchTerm}
+              name="name"
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Enter player name..."
+              className="flex-1 px-4 py-3 md:py-2.5 text-[1rem] bg-black text-white border border-gray-700 rounded-xl focus:outline-none focus:border-magenta-500 transition-colors duration-200 placeholder-gray-500"
+            />
+          </div>
         </div>
         {/* Players List */}
         {loading ? (
@@ -403,59 +388,57 @@ export default function Home() {
               No players found! Time to show them you got GAME!
             </p>
           </div>
+        ) : filteredPlayers.length === 0 ? (
+          <div className="text-center py-12 bg-black rounded-xl border-2 border-gray-800">
+            <p className="text-[1rem] font-bold text-yellow-400">
+              No players found matching "{searchTerm}"
+            </p>
+          </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-5">
-            {players.map((player) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+            {filteredPlayers.map((player) => (
               <div
                 key={player.session_id}
-                className="bg-black rounded-xl border-2 border-gray-800 p-6 hover:border-magenta-500 transition-all duration-300 ease-in-out transform hover:scale-[1em] active:scale-[0.98] shadow-md hover:shadow-lg active:shadow-md"
+                className="bg-black rounded-xl border-2 border-gray-800 p-4 md:p-5 lg:p-6 hover:border-magenta-500 transition-all duration-300 ease-in-out active:scale-[0.98] shadow-md hover:shadow-lg active:shadow-md touch-manipulation"
               >
-                <div className="grid grid-cols-4 gap-3">
+                <div className="flex flex-col gap-2 md:gap-3">
                   <div className="flex flex-col justify-center py-3 px-4 bg-gradient-to-br from-gray-900/80 to-gray-900/40 rounded-lg border border-gray-700/50">
                     <span className="text-[0.75rem] uppercase tracking-wider text-gray-500 mb-1">
                       Player
                     </span>
-                    <h3 className="text-[1.25rem] font-bold text-white truncate">
+                    <h3 className="text-[1.125rem] md:text-[1.25rem] font-bold text-white">
                       {player.player}
                     </h3>
                   </div>
-                  <div className="flex flex-col items-center justify-center py-3 px-2 bg-gray-900/60 rounded-lg border border-gray-800/50">
-                    <span className="text-[0.75rem] uppercase tracking-wider text-gray-500 mb-1">
-                      Score
-                    </span>
-                    <span className="font-display text-[1.5rem] font-semibold text-magenta-400">
-                      {player.score}
-                    </span>
-                  </div>
-                  <div className="flex flex-col items-center justify-center py-3 px-2 bg-gray-900/60 rounded-lg border border-gray-800/50">
-                    <span className="text-[0.75rem] uppercase tracking-wider text-gray-500 mb-1">
-                      Place
-                    </span>
-                    <span className="font-display text-[1.5rem] font-semibold text-white">
-                      #{player.place}
-                    </span>
-                  </div>
-                  <div className="flex flex-col items-center justify-center py-3 px-2 bg-gray-900/60 rounded-lg border border-gray-800/50">
-                    <span className="text-[0.75rem] uppercase tracking-wider text-gray-500 mb-1">
-                      Top Ten
-                    </span>
-                    <span
-                      className={`font-display text-[1.5rem] font-semibold ${player.place <= 10 ? "text-magenta-400" : "text-gray-600"}`}
-                    >
-                      {player.place <= 10 ? "Yes" : "No"}
-                    </span>
+                  <div className="flex justify-between gap-2">
+                    <div className="flex-1 flex flex-col items-center justify-center py-3 px-2 bg-gray-900/60 rounded-lg border border-gray-800/50">
+                      <span className="text-[0.75rem] uppercase tracking-wider text-gray-500 mb-1">
+                        Score
+                      </span>
+                      <span className="font-display text-[1.25rem] md:text-[1.5rem] font-semibold text-magenta-400">
+                        {player.score}
+                      </span>
+                    </div>
+                    <div className={`flex-1 flex flex-col items-center justify-center py-3 px-2 rounded-lg border ${(rankMap.get(player.session_id) ?? 99) <= 10 ? "bg-magenta-500/10 border-magenta-500/30 shadow-[0_0_12px_rgba(236,72,153,0.15)]" : "bg-gray-900/60 border-gray-800/50"}`}>
+                      <span className={`text-[0.75rem] uppercase tracking-wider mb-1 ${(rankMap.get(player.session_id) ?? 99) <= 10 ? "text-magenta-300" : "text-gray-500"}`}>
+                        {(rankMap.get(player.session_id) ?? 99) <= 10 ? "Top 10" : "Place"}
+                      </span>
+                      <span className={`font-display text-[1.25rem] md:text-[1.5rem] font-semibold ${(rankMap.get(player.session_id) ?? 99) <= 10 ? "text-magenta-400" : "text-white"}`}>
+                        #{rankMap.get(player.session_id)}
+                      </span>
+                    </div>
                   </div>
                 </div>
-                <div className="flex gap-3 mt-6">
+                <div className="flex gap-3 mt-4 md:mt-5">
                   <button
                     onClick={() => handleEdit(player)}
-                    className="font-display flex-1 px-4 py-3 bg-magenta-500 hover:bg-magenta-400 text-white text-[1.06875rem] rounded-lg transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98] shadow-sm hover:shadow-md active:shadow-sm"
+                    className="font-display flex-1 px-4 py-3.5 md:py-3 bg-magenta-500 hover:bg-magenta-400 active:bg-magenta-300 text-white text-[1.0625rem] md:text-[1.06875rem] rounded-xl transition-all duration-300 ease-in-out active:scale-[0.98] shadow-sm hover:shadow-md active:shadow-sm select-none touch-manipulation"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => handleDelete(player.session_id)}
-                    className="font-display flex-1 px-4 py-3 bg-gray-800 hover:bg-gray-700 text-white text-[1.06875rem] rounded-lg transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98] shadow-sm hover:shadow-md active:shadow-sm"
+                    className="font-display flex-1 px-4 py-3.5 md:py-3 bg-gray-800 hover:bg-gray-700 active:bg-gray-600 text-white text-[1.0625rem] md:text-[1.06875rem] rounded-xl transition-all duration-300 ease-in-out active:scale-[0.98] shadow-sm hover:shadow-md active:shadow-sm select-none touch-manipulation"
                   >
                     Delete
                   </button>
